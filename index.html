@@ -142,9 +142,21 @@
         /* Section title */
         .section-title {
             text-align: center;      /* Center-align title */
-            margin-bottom: 3rem;     /* Add space below title */
+            margin-bottom: 1rem;     /* Add space below title */
             font-size: 2.5rem;      /* Large font size */
             color: var(--primary);   /* Dark text color */
+        }
+
+        /* Section subtitle */
+        .section-subtitle {
+            text-align: center;      /* Center-align subtitle */
+            margin-bottom: 3rem;     /* Add space below subtitle */
+            font-size: 1.2rem;       /* Medium font size */
+            color: var(--dark);      /* Dark text color */
+            font-style: italic;      /* Italic style */
+            max-width: 600px;        /* Limit width */
+            margin-left: auto;       /* Center the subtitle */
+            margin-right: auto;      /* Center the subtitle */
         }
 
         /* Project grid layout */
@@ -321,6 +333,7 @@
 
         .blog-info {
             padding: 1.5rem;
+            position: relative; /* For positioning the WordPress button */
         }
 
         .blog-info h3 {
@@ -357,6 +370,26 @@
             padding: 0.2rem 0.5rem;
             border-radius: 3px;
             font-size: 0.8rem;
+        }
+
+        /* WordPress button in top right corner */
+        .wordpress-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .wordpress-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
         }
 
         /* Contact section */
@@ -699,6 +732,15 @@
             .blog-card::after {
                 display: none;
             }
+            
+            /* Adjust WordPress button for mobile */
+            .wordpress-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                display: inline-block;
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
@@ -774,6 +816,7 @@
     <!-- Blogs Section -->
     <section id="blogs" class="blogs">
         <h2 class="section-title">Insights & Articles</h2>
+        <p class="section-subtitle">Engineering, Exploration, and Deep Thinking.</p>
         <div id="blog-container">
             <div class="loading">
                 <div class="loading-spinner"></div>
@@ -1455,6 +1498,7 @@
                     <img src="${featuredImage}" alt="${post.title}" 
                          onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'">
                     <div class="blog-info">
+                        <a href="${post.URL}" class="wordpress-btn" target="_blank">Read on WordPress</a>
                         <div class="blog-meta">
                             <span class="blog-date">${postDate}</span>
                             <span class="blog-category">Article</span>
