@@ -239,7 +239,16 @@
             background: rgba(255,255,255,0.1); /* Semi-transparent white background */
             padding: 1.5rem;         /* Add padding */
             margin-bottom: 1rem;     /* Add space below item */
-            border-radius: 5px;      /* Rounded corners */
+            border-radius: 10px;     /* Rounded corners */
+            transition: all 0.3s ease; /* Smooth hover effect */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Add shadow for depth */
+        }
+
+        /* Hover effect for publication item */
+        .publication-item:hover {
+            transform: translateY(-5px); /* Move card up slightly */
+            background: rgba(255,255,255,0.15); /* Slightly lighter background on hover */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* Enhanced shadow on hover */
         }
 
         /* Publication heading */
@@ -262,7 +271,7 @@
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem; /* Increased gap for better separation */
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -272,17 +281,42 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease; /* Smooth hover effect */
+            position: relative;
         }
 
+        /* Hover effect for blog card */
         .blog-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px); /* Move card up slightly */
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
+        }
+
+        /* Add subtle border to blog cards for better separation */
+        .blog-card::after {
+            content: '';
+            position: absolute;
+            bottom: -1.25rem; /* Half of the gap */
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        /* Remove border from last blog card */
+        .blog-card:last-child::after {
+            display: none;
         }
 
         .blog-card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            transition: transform 0.3s ease; /* Smooth image zoom on hover */
+        }
+
+        /* Image zoom effect on blog card hover */
+        .blog-card:hover img {
+            transform: scale(1.05);
         }
 
         .blog-info {
@@ -292,6 +326,12 @@
         .blog-info h3 {
             margin-bottom: 1rem;
             color: var(--primary);
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        /* Title color change on blog card hover */
+        .blog-card:hover .blog-info h3 {
+            color: var(--secondary);
         }
 
         .blog-info p {
@@ -653,6 +693,11 @@
             
             .pdf-viewer {
                 height: 400px;
+            }
+            
+            /* Remove blog card separators on mobile */
+            .blog-card::after {
+                display: none;
             }
         }
     </style>
