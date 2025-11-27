@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Links Google Fonts for custom typography -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <!-- PDF.js library for PDF text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
         /* Define color variables for easy reuse */
         :root {
@@ -689,7 +691,7 @@
                 <img src="assets/images/vented-airfoil.png" alt="Vented Airfoil">
                 <div class="project-info">
                     <h3>Vented Airfoil Design</h3>
-                    <p>Developed a passive flow control technique to enhance aerodynamic efficiency.</p>
+                    <p id="vented-summary">Loading project summary...</p>
                     <button class="btn" data-project="vented-airfoil" data-pdf="HOVAL_paper_publication.pdf">Read Here</button>
                 </div>
             </div>
@@ -698,7 +700,7 @@
                 <img src="assets/images/evtol-design.png" alt="eVTOL Design">
                 <div class="project-info">
                     <h3>Rhacophorus eVTOL</h3>
-                    <p>Conceptualized an intercity electric VTOL aircraft for urban air mobility.</p>
+                    <p id="evtol-summary">Loading project summary...</p>
                     <button class="btn" data-project="evtol-design" data-pdf="HOVAL_MSc_dissertation.pdf">Read Here</button>
                 </div>
             </div>
@@ -707,7 +709,7 @@
                 <img src="assets/images/anti-satellite.png" alt="Anti-Satellite Weapons">
                 <div class="project-info">
                     <h3>Anti-Satellite Weapons</h3>
-                    <p>Analyzed the ethical and environmental impact of space weaponization.</p>
+                    <p id="satellite-summary">Loading project summary...</p>
                     <button class="btn" data-project="anti-satellite" data-pdf="Team_Antrix_Case_Study.pdf">Read Here</button>
                 </div>
             </div>
@@ -765,9 +767,39 @@
     </div>
 
     <script>
+        // Set up PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
         // Your WordPress URL
         const WORDPRESS_URL = 'https://shreyashhoval3.wordpress.com';
         
+        // Project configuration - easily extensible for future projects
+        const projectConfig = {
+            'vented-airfoil': {
+                title: 'Vented Airfoil Design',
+                pdf: 'HOVAL_paper_publication.pdf',
+                summaryElement: 'vented-summary'
+            },
+            'evtol-design': {
+                title: 'Rhacophorus eVTOL',
+                pdf: 'HOVAL_MSc_dissertation.pdf',
+                summaryElement: 'evtol-summary'
+            },
+            'anti-satellite': {
+                title: 'Anti-Satellite Weapons',
+                pdf: 'Team_Antrix_Case_Study.pdf',
+                summaryElement: 'satellite-summary'
+            },
+            'publication-vented': {
+                title: 'Aerodynamic Design of Vented NACA2412 Airfoil',
+                pdf: 'HOVAL_paper_publication.pdf',
+                summaryElement: null
+            }
+        };
+
+        // Cache for extracted content
+        const contentCache = {};
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -792,349 +824,163 @@
             observer.observe(el);
         });
 
-        // Project data - extracted content from your PDFs
-        const projectData = {
-            'vented-airfoil': {
-                title: 'Vented Airfoil Design',
-                content: `
-                    <h2 class="modal-title">Vented Airfoil Design</h2>
-                    <div class="modal-body">
-                        <p><strong>Project Overview:</strong> Developed a passive flow control technique to enhance aerodynamic efficiency through strategic vent placement on airfoil surfaces.</p>
-                        
-                        <h3>Background & Motivation</h3>
-                        <p>Traditional airfoil designs face inherent limitations in maintaining optimal aerodynamic performance across varying flight conditions. The vented airfoil concept introduces an innovative approach to flow control without requiring complex mechanical systems or active components.</p>
-                        
-                        <h3>Technical Approach</h3>
-                        <p>The research employed computational fluid dynamics (CFD) simulations to analyze various vent configurations on standard airfoil profiles. Key design considerations included:</p>
-                        <ul>
-                            <li>Strategic placement of vents along the chord length</li>
-                            <li>Optimization of vent size and geometry for minimal disruption</li>
-                            <li>Analysis of pressure distribution and boundary layer behavior</li>
-                            <li>Evaluation of performance across different Reynolds numbers</li>
-                        </ul>
-                        
-                        <h3>Key Findings</h3>
-                        <p>The vented design demonstrated significant improvements in aerodynamic performance:</p>
-                        <ul>
-                            <li><strong>Drag Reduction:</strong> Up to 18% reduction in drag coefficient at cruise conditions</li>
-                            <li><strong>Stall Delay:</strong> Extension of stall angle by 4-6 degrees compared to standard designs</li>
-                            <li><strong>Efficiency Improvement:</strong> Enhanced lift-to-drag ratio across operational envelope</li>
-                            <li><strong>Stability:</strong> Improved performance in turbulent flow conditions</li>
-                        </ul>
-                        
-                        <h3>Applications & Impact</h3>
-                        <p>This technology has broad applications across aerospace and renewable energy sectors:</p>
-                        <ul>
-                            <li><strong>General Aviation:</strong> Improved fuel efficiency and performance</li>
-                            <li><strong>Wind Turbines:</strong> Enhanced energy capture and reduced structural loads</li>
-                            <li><strong>UAV Systems:</strong> Extended endurance and improved maneuverability</li>
-                            <li><strong>Commercial Aircraft:</strong> Potential for significant fuel savings and emissions reduction</li>
-                        </ul>
-                        
-                        <h3>Technical Specifications</h3>
-                        <ul>
-                            <li><strong>Airfoil Type:</strong> Modified NACA series</li>
-                            <li><strong>Vent Configuration:</strong> Multiple strategically placed openings</li>
-                            <li><strong>Flow Control:</strong> Passive boundary layer manipulation</li>
-                            <li><strong>Performance Gain:</strong> 15-20% improvement in aerodynamic efficiency</li>
-                        </ul>
-                        
-                        <h3>Future Development</h3>
-                        <p>Ongoing research focuses on:</p>
-                        <ul>
-                            <li>Application to different airfoil families and configurations</li>
-                            <li>Integration with active flow control systems</li>
-                            <li>Scale-up for commercial aviation applications</li>
-                            <li>Noise and vibration characteristics analysis</li>
-                        </ul>
-                        
-                        <p><em>This project represents a significant advancement in passive flow control technology with potential applications across multiple aerospace domains.</em></p>
-                    </div>
-                `
-            },
-            'evtol-design': {
-                title: 'Rhacophorus eVTOL',
-                content: `
-                    <h2 class="modal-title">Rhacophorus eVTOL - Urban Air Mobility Concept</h2>
-                    <div class="modal-body">
-                        <p><strong>Project Overview:</strong> Conceptual design of an intercity electric Vertical Take-Off and Landing (eVTOL) aircraft for sustainable urban air mobility.</p>
-                        
-                        <h3>Design Philosophy</h3>
-                        <p>The Rhacophorus eVTOL draws inspiration from tree frogs' efficient gliding abilities, reflecting the aircraft's seamless transition between hover and forward flight modes. The design prioritizes sustainability, efficiency, and urban integration.</p>
-                        
-                        <h3>Key Design Features</h3>
-                        <ul>
-                            <li><strong>Tilt-Rotor Configuration:</strong> Optimized for both hover efficiency and cruise performance</li>
-                            <li><strong>Distributed Electric Propulsion:</strong> Eight independent rotors for redundancy and control</li>
-                            <li><strong>Advanced Battery System:</strong> High-energy-density lithium-ion with quick-charge capability</li>
-                            <li><strong>Autonomous Flight Systems:</strong> AI-powered navigation with manual override capability</li>
-                            <li><strong>Noise-Optimized Design:</strong> Specially designed rotors for minimal urban noise impact</li>
-                        </ul>
-                        
-                        <h3>Performance Specifications</h3>
-                        <ul>
-                            <li><strong>Range:</strong> 150 km (93 miles) on single charge</li>
-                            <li><strong>Cruise Speed:</strong> 180 km/h (112 mph)</li>
-                            <li><strong>Passenger Capacity:</strong> 4 passengers + pilot/operator</li>
-                            <li><strong>Takeoff/Landing Footprint:</strong> 10m × 10m minimum</li>
-                            <li><strong>Noise Level:</strong> < 65 dB at 150m distance</li>
-                            <li><strong>Charging Time:</strong> 30 minutes for 80% capacity</li>
-                        </ul>
-                        
-                        <h3>Urban Integration Strategy</h3>
-                        <p>The design addresses key urban mobility challenges:</p>
-                        <ul>
-                            <li><strong>Vertiport Compatibility:</strong> Rooftop and ground-level operations</li>
-                            <li><strong>Air Traffic Integration:</strong> Seamless interface with existing ATC systems</li>
-                            <li><strong>Emergency Procedures:</strong> Urban-optimized safety protocols</li>
-                            <li><strong>Infrastructure Requirements:</strong> Minimal ground support equipment</li>
-                        </ul>
-                        
-                        <h3>Sustainability Impact</h3>
-                        <p>Comparative analysis with ground transportation demonstrates:</p>
-                        <ul>
-                            <li><strong>Travel Time Reduction:</strong> 80% faster for distances over 30km</li>
-                            <li><strong>Zero Emissions:</strong> Fully electric operation with no direct emissions</li>
-                            <li><strong>Urban Congestion:</strong> Significant reduction in ground traffic</li>
-                            <li><strong>Energy Efficiency:</strong> 3x more efficient than conventional helicopters</li>
-                        </ul>
-                        
-                        <h3>Technical Innovation</h3>
-                        <ul>
-                            <li><strong>Composite Structure:</strong> Lightweight carbon fiber construction</li>
-                            <li><strong>Distributed Control:</strong> Redundant flight control systems</li>
-                            <li><strong>Energy Management:</strong> AI-optimized power distribution</li>
-                            <li><strong>Thermal Management:</strong> Advanced battery cooling systems</li>
-                        </ul>
-                        
-                        <h3>Market Application</h3>
-                        <p>Primary use cases include:</p>
-                        <ul>
-                            <li>Urban air taxi services</li>
-                            <li>Emergency medical transport</li>
-                            <li>Corporate mobility solutions</li>
-                            <li>Logistics and cargo delivery</li>
-                        </ul>
-                        
-                        <p><em>The Rhacophorus eVTOL represents a viable solution for sustainable urban air mobility, addressing growing transportation challenges in metropolitan areas.</em></p>
-                    </div>
-                `
-            },
-            'anti-satellite': {
-                title: 'Anti-Satellite Weapons Analysis',
-                content: `
-                    <h2 class="modal-title">Anti-Satellite Weapons: Ethical and Environmental Analysis</h2>
-                    <div class="modal-body">
-                        <p><strong>Research Overview:</strong> Comprehensive analysis of the ethical implications and environmental impact of space weaponization through anti-satellite (ASAT) systems.</p>
-                        
-                        <h3>Executive Summary</h3>
-                        <p>This study examines the multifaceted consequences of anti-satellite weapon development and testing, focusing on the long-term sustainability of space operations and the ethical considerations of weaponizing the space domain.</p>
-                        
-                        <h3>Historical Context & Case Studies</h3>
-                        <p>Analysis of major ASAT tests and their orbital debris consequences:</p>
-                        <ul>
-                            <li><strong>United States (1985):</strong> Limited debris generation from F-15-launched ASAT test</li>
-                            <li><strong>China (2007):</strong> Creation of over 3,000 trackable debris objects from Fengyun-1C destruction</li>
-                            <li><strong>India (2019):</strong> Lower-altitude test with controlled debris mitigation approach</li>
-                            <li><strong>Russia (2021):</strong> Cosmos 1408 destruction generating significant debris field</li>
-                        </ul>
-                        
-                        <h3>Environmental Impact Assessment</h3>
-                        <p><strong>The Kessler Syndrome:</strong> Theoretical cascade effect where debris collisions create additional debris, potentially rendering specific orbital regions unusable for generations.</p>
-                        
-                        <h4>Key Environmental Concerns:</h4>
-                        <ul>
-                            <li><strong>Long-Term Debris Persistence:</strong> Debris in LEO can remain for decades to centuries</li>
-                            <li><strong>Collision Risk:</strong> Increased probability of collisions with operational satellites</li>
-                            <li><strong>International Space Station Risk:</strong> Regular debris avoidance maneuvers required</li>
-                            <li><strong>Scientific Mission Impact:</strong> Threat to astronomical observations and space science</li>
-                        </ul>
-                        
-                        <h3>Ethical Framework Analysis</h3>
-                        <p>Evaluation of ASAT development through multiple ethical lenses:</p>
-                        
-                        <h4>Global Commons Considerations</h4>
-                        <ul>
-                            <li>Space as a shared resource for all humanity</li>
-                            <li>Intergenerational equity and sustainability</li>
-                            <li>Responsibility to preserve space for future activities</li>
-                        </ul>
-                        
-                        <h4>Civilian Infrastructure Impact</h4>
-                        <ul>
-                            <li>Dependence on satellite services for daily life</li>
-                            <li>Critical infrastructure vulnerability (GPS, communications, weather)</li>
-                            <li>Economic consequences of satellite service disruption</li>
-                        </ul>
-                        
-                        <h4>Arms Race Dynamics</h4>
-                        <ul>
-                            <li>Escalation risks in space weaponization</li>
-                            <li>Deterrence theory applicability to space domain</li>
-                            <li>Transparency and confidence-building measures</li>
-                        </ul>
-                        
-                        <h3>Policy Recommendations</h3>
-                        <p>Based on comprehensive analysis, the following policy measures are recommended:</p>
-                        
-                        <h4>Immediate Actions</h4>
-                        <ul>
-                            <li>International moratorium on destructive ASAT testing</li>
-                            <li>Enhanced space situational awareness sharing</li>
-                            <li>Development of debris mitigation standards</li>
-                        </ul>
-                        
-                        <h4>Medium-Term Initiatives</h4>
-                        <ul>
-                            <li>Space traffic management protocols</li>
-                            <li>International debris removal cooperation</li>
-                            <li>Transparency in space operations</li>
-                        </ul>
-                        
-                        <h4>Long-Term Goals</h4>
-                        <ul>
-                            <li>International treaty banning ASAT weapons</li>
-                            <li>Sustainable space operations framework</li>
-                            <li>Space environmental protection standards</li>
-                        </ul>
-                        
-                        <h3>Technical Alternatives</h3>
-                        <p>Non-destructive alternatives to kinetic ASAT capabilities:</p>
-                        <ul>
-                            <li>Electronic warfare and cyber capabilities</li>
-                            <li>Laser dazzling and temporary disruption</li>
-                            <li>Grappling and relocation technologies</li>
-                            <li>Cooperative space security measures</li>
-                        </ul>
-                        
-                        <h3>Conclusion</h3>
-                        <p>The short-term military advantages of kinetic ASAT capabilities are significantly outweighed by the long-term risks to the space environment and all space operations. International cooperation, transparency, and sustainable practices are essential to preserve space as a viable domain for future generations.</p>
-                        
-                        <p><em>This analysis contributes to the growing body of research advocating for responsible space governance and the prevention of an arms race in outer space.</em></p>
-                    </div>
-                `
-            },
-            'publication-vented': {
-                title: 'Aerodynamic Design of Vented NACA2412 Airfoil',
-                content: `
-                    <h2 class="modal-title">Aerodynamic Design of Vented NACA2412 Airfoil</h2>
-                    <div class="modal-body">
-                        <div class="publication-header" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                            <p><strong>Published in:</strong> International Journal of Mechanical and Production Engineering Research and Development (IJMPERD)</p>
-                            <p><strong>Publication Date:</strong> January 2020</p>
-                            <p><strong>Indexing:</strong> SCOPUS Indexed</p>
-                            <p><strong>Authors:</strong> Shreyash Hoval et al.</p>
-                        </div>
-                        
-                        <h3>Abstract</h3>
-                        <p>This paper presents a novel approach to airfoil design through the implementation of strategically placed vents along the chord of a NACA2412 airfoil. The research demonstrates that passive flow control through venting can significantly enhance aerodynamic performance by controlling boundary layer separation and reducing drag at higher angles of attack, without the complexity of active flow control systems.</p>
-                        
-                        <h3>1. Introduction</h3>
-                        <p>Traditional airfoil designs face inherent limitations in maintaining optimal aerodynamic efficiency across varying flight conditions. While active flow control systems have shown promise, their complexity, weight, and power requirements limit practical applications. The vented airfoil concept introduces an innovative passive flow control mechanism that addresses these limitations through strategically placed openings that manipulate boundary layer behavior.</p>
-                        
-                        <h3>2. Methodology</h3>
-                        
-                        <h4>2.1 Computational Approach</h4>
-                        <p>The research employed advanced computational fluid dynamics (CFD) simulations using ANSYS Fluent with the following parameters:</p>
-                        <ul>
-                            <li><strong>Solver:</strong> Pressure-based, steady-state</li>
-                            <li><strong>Turbulence Model:</strong> k-ω SST for accurate boundary layer prediction</li>
-                            <li><strong>Mesh Resolution:</strong> Structured grid with boundary layer refinement</li>
-                            <li><strong>Convergence Criteria:</strong> Residuals below 10⁻⁶</li>
-                        </ul>
-                        
-                        <h4>2.2 Experimental Validation</h4>
-                        <p>Wind tunnel testing was conducted to validate computational results:</p>
-                        <ul>
-                            <li><strong>Facility:</strong> Low-speed subsonic wind tunnel</li>
-                            <li><strong>Reynolds Number:</strong> 500,000 to 2,000,000</li>
-                            <li><strong>Measurement Techniques:</strong> Pressure taps, force balance, PIV</li>
-                            <li><strong>Angle of Attack Range:</strong> -5° to 20°</li>
-                        </ul>
-                        
-                        <h3>3. Results and Discussion</h3>
-                        
-                        <h4>3.1 Aerodynamic Performance</h4>
-                        <p>The vented NACA2412 airfoil demonstrated significant improvements across key performance metrics:</p>
-                        
-                        <h5>Drag Characteristics</h5>
-                        <ul>
-                            <li>18% reduction in drag coefficient at moderate angles of attack (α = 4°-8°)</li>
-                            <li>Maintained low drag across wider operational range</li>
-                            <li>Reduced sensitivity to Reynolds number variations</li>
-                        </ul>
-                        
-                        <h5>Lift Performance</h5>
-                        <ul>
-                            <li>Delayed stall onset by 4-6 degrees compared to standard NACA2412</li>
-                            <li>Improved maximum lift coefficient (C<sub>Lmax</sub> increase of 12%)</li>
-                            <li>Enhanced lift curve linearity in pre-stall region</li>
-                        </ul>
-                        
-                        <h5>Efficiency Metrics</h5>
-                        <ul>
-                            <li>Lift-to-drag ratio improvement of 15-22% across operational envelope</li>
-                            <li>Extended range of high-efficiency operation</li>
-                            <li>Improved performance in turbulent flow conditions</li>
-                        </ul>
-                        
-                        <h4>3.2 Flow Field Analysis</h4>
-                        <p>Detailed examination of flow mechanisms revealed:</p>
-                        <ul>
-                            <li><strong>Boundary Layer Control:</strong> Vents promote early transition to turbulent flow</li>
-                            <li><strong>Separation Delay:</strong> Reduced separation bubble size and intensity</li>
-                            <li><strong>Pressure Distribution:</strong> More favorable pressure gradient maintenance</li>
-                            <li><strong>Vortex Shedding:</strong> Controlled vortex formation and dissipation</li>
-                        </ul>
-                        
-                        <h3>4. Optimal Configuration</h3>
-                        <p>The research identified optimal vent parameters for the NACA2412 airfoil:</p>
-                        <ul>
-                            <li><strong>Vent Location:</strong> 15-25% chord position (suction side)</li>
-                            <li><strong>Vent Size:</strong> 1-2% chord length diameter</li>
-                            <li><strong>Number of Vents:</strong> 3-5 strategically placed openings</li>
-                            <li><strong>Geometry:</strong> Streamlined, aerodynamically shaped openings</li>
-                        </ul>
-                        
-                        <h3>5. Applications and Implications</h3>
-                        
-                        <h4>5.1 Aerospace Applications</h4>
-                        <ul>
-                            <li><strong>General Aviation:</strong> Improved cruise efficiency and stall characteristics</li>
-                            <li><strong>UAV Systems:</strong> Enhanced endurance and maneuverability</li>
-                            <li><strong>Wind Turbines:</strong> Increased energy capture and reduced structural loads</li>
-                            <li><strong>Helicopter Rotors:</strong> Improved hover and forward flight performance</li>
-                        </ul>
-                        
-                        <h4>5.2 Commercial Viability</h4>
-                        <p>The technology offers significant advantages:</p>
-                        <ul>
-                            <li><strong>Cost-Effective:</strong> No moving parts or complex systems</li>
-                            <li><strong>Reliable:</strong> Passive operation with no maintenance requirements</li>
-                            <li><strong>Scalable:</strong> Applicable across various size scales and applications</li>
-                            <li><strong>Retrofit Capability:</strong> Can be implemented on existing airfoil designs</li>
-                        </ul>
-                        
-                        <h3>6. Conclusion</h3>
-                        <p>The vented NACA2412 airfoil represents a significant advancement in passive flow control technology. The research demonstrates that strategic vent placement can effectively enhance aerodynamic performance through boundary layer control and separation delay. The technology offers practical benefits for various applications where weight, complexity, and reliability constraints limit the use of active flow control systems.</p>
-                        
-                        <h3>7. Future Work</h3>
-                        <p>Recommended directions for continued research:</p>
-                        <ul>
-                            <li>Application to other airfoil families and configurations</li>
-                            <li>Integration with hybrid active-passive flow control systems</li>
-                            <li>Long-term durability and maintenance considerations</li>
-                            <li>Noise and vibration characteristics analysis</li>
-                            <li>Full-scale flight testing and validation</li>
-                        </ul>
-                        
-                        <div class="publication-footer" style="border-top: 1px solid #eee; padding-top: 1rem; margin-top: 2rem;">
-                            <p><strong>Citation:</strong> Hoval, S. (2020). Aerodynamic Design of Vented NACA2412 Airfoil. International Journal of Mechanical and Production Engineering Research and Development, 10(1), 123-134.</p>
-                        </div>
-                    </div>
-                `
+        // Function to extract text from PDF
+        async function extractTextFromPDF(pdfUrl) {
+            try {
+                // Load the PDF
+                const loadingTask = pdfjsLib.getDocument(pdfUrl);
+                const pdf = await loadingTask.promise;
+                
+                let fullText = '';
+                
+                // Extract text from all pages
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + ' ';
+                }
+                
+                return fullText;
+            } catch (error) {
+                console.error('Error extracting text from PDF:', error);
+                throw error;
             }
-        };
+        }
+
+        // Function to extract key sections from text
+        function extractKeySections(text) {
+            // Convert to lowercase for easier matching
+            const lowerText = text.toLowerCase();
+            
+            // Find introduction
+            let introStart = Math.max(
+                lowerText.indexOf('introduction'),
+                lowerText.indexOf('abstract'),
+                lowerText.indexOf('summary')
+            );
+            
+            // Find conclusion
+            let conclusionStart = Math.max(
+                lowerText.indexOf('conclusion'),
+                lowerText.indexOf('discussion'),
+                lowerText.indexOf('results and discussion')
+            );
+            
+            let introduction = '';
+            let summary = '';
+            let conclusion = '';
+            
+            if (introStart !== -1 && conclusionStart !== -1) {
+                // Extract introduction (first 500 characters after intro)
+                introduction = text.substring(introStart, Math.min(introStart + 500, conclusionStart));
+                
+                // Extract conclusion (first 500 characters after conclusion)
+                conclusion = text.substring(conclusionStart, Math.min(conclusionStart + 500, text.length));
+                
+                // Create summary from introduction and conclusion
+                summary = introduction.substring(0, 250) + '... ' + conclusion.substring(0, 250);
+            } else {
+                // Fallback: use first 500 characters as summary
+                summary = text.substring(0, 500) + '...';
+                introduction = text.substring(0, 500) + '...';
+                conclusion = text.substring(Math.max(0, text.length - 500)) + '...';
+            }
+            
+            // Clean up the text
+            summary = cleanText(summary);
+            introduction = cleanText(introduction);
+            conclusion = cleanText(conclusion);
+            
+            return { summary, introduction, conclusion };
+        }
+
+        // Function to clean extracted text
+        function cleanText(text) {
+            return text
+                .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+                .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between lowercase and uppercase
+                .trim();
+        }
+
+        // Function to load and process PDF for a project
+        async function loadProjectSummary(projectId) {
+            const config = projectConfig[projectId];
+            if (!config || !config.summaryElement) return;
+            
+            try {
+                const text = await extractTextFromPDF(config.pdf);
+                const sections = extractKeySections(text);
+                
+                // Update the summary in the project card
+                const summaryElement = document.getElementById(config.summaryElement);
+                if (summaryElement) {
+                    summaryElement.textContent = sections.summary;
+                }
+                
+                // Cache the content for modal display
+                contentCache[projectId] = {
+                    title: config.title,
+                    introduction: sections.introduction,
+                    conclusion: sections.conclusion,
+                    fullText: text
+                };
+                
+            } catch (error) {
+                console.error(`Error loading project ${projectId}:`, error);
+                const summaryElement = document.getElementById(config.summaryElement);
+                if (summaryElement) {
+                    summaryElement.textContent = 'Unable to load project summary. Click "Read Here" to view the full document.';
+                }
+            }
+        }
+
+        // Function to generate modal content from extracted sections
+        function generateModalContent(projectId) {
+            const content = contentCache[projectId];
+            if (!content) {
+                return `
+                    <h2 class="modal-title">${projectConfig[projectId].title}</h2>
+                    <div class="modal-body">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading project content...</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return `
+                <h2 class="modal-title">${content.title}</h2>
+                <div class="modal-body">
+                    <h3>Introduction</h3>
+                    <p>${content.introduction}</p>
+                    
+                    <h3>Key Findings</h3>
+                    <p>${extractKeyFindings(content.fullText)}</p>
+                    
+                    <h3>Conclusion</h3>
+                    <p>${content.conclusion}</p>
+                </div>
+            `;
+        }
+
+        // Function to extract key findings (simplified version)
+        function extractKeyFindings(text) {
+            // This is a simplified extraction - you can enhance this based on your PDF structure
+            const sentences = text.split('.');
+            const keySentences = sentences
+                .filter(sentence => 
+                    sentence.toLowerCase().includes('result') ||
+                    sentence.toLowerCase().includes('finding') ||
+                    sentence.toLowerCase().includes('demonstrate') ||
+                    sentence.toLowerCase().includes('show') ||
+                    sentence.toLowerCase().includes('conclude')
+                )
+                .slice(0, 3); // Take first 3 relevant sentences
+            
+            return keySentences.join('. ') + (keySentences.length > 0 ? '.' : 'Key findings extracted from the document.');
+        }
 
         // Project modal functionality
         const modal = document.getElementById('project-modal');
@@ -1144,7 +990,6 @@
         // Track current view mode (content or pdf)
         let currentViewMode = 'content';
         let currentProjectId = '';
-        let currentPdfFile = '';
 
         // Open project modal
         document.querySelectorAll('.btn[data-project]').forEach(button => {
@@ -1153,44 +998,40 @@
                 const pdfFile = this.getAttribute('data-pdf');
                 
                 currentProjectId = projectId;
-                currentPdfFile = pdfFile;
                 currentViewMode = 'content';
                 
-                if (projectData[projectId]) {
-                    showProjectContent(projectId, pdfFile);
-                    modal.style.display = 'block';
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling
-                }
+                showProjectContent(projectId, pdfFile);
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
             });
         });
 
         // Function to show project content
         function showProjectContent(projectId, pdfFile) {
-            if (projectData[projectId]) {
-                modalBody.innerHTML = `
-                    <div class="pdf-toggle">
-                        <button class="btn view-pdf-btn">View Original Document</button>
-                    </div>
-                    ${projectData[projectId].content}
-                `;
-                
-                // Add event listener to the PDF toggle button
-                const viewPdfBtn = modalBody.querySelector('.view-pdf-btn');
-                viewPdfBtn.addEventListener('click', function() {
-                    showPdfViewer(projectId, pdfFile);
-                });
-            }
+            modalBody.innerHTML = `
+                <div class="pdf-toggle">
+                    <button class="btn view-pdf-btn">View Original Document</button>
+                </div>
+                ${generateModalContent(projectId)}
+            `;
+            
+            // Add event listener to the PDF toggle button
+            const viewPdfBtn = modalBody.querySelector('.view-pdf-btn');
+            viewPdfBtn.addEventListener('click', function() {
+                showPdfViewer(projectId, pdfFile);
+            });
         }
 
         // Function to show PDF viewer
         function showPdfViewer(projectId, pdfFile) {
+            const config = projectConfig[projectId];
             modalBody.innerHTML = `
                 <div class="pdf-toggle">
                     <button class="btn view-content-btn">Back to Summary</button>
                 </div>
-                <h2 class="modal-title">${projectData[projectId].title} - Original Document</h2>
+                <h2 class="modal-title">${config.title} - Original Document</h2>
                 <div class="modal-body">
-                    <iframe src="${pdfFile}" class="pdf-viewer" title="${projectData[projectId].title}">
+                    <iframe src="${pdfFile}" class="pdf-viewer" title="${config.title}">
                         <div class="pdf-placeholder">
                             <i class="fas fa-file-pdf"></i>
                             <p>Your browser doesn't support PDF viewing.</p>
@@ -1494,6 +1335,11 @@
             // Load WordPress content immediately
             fetchWordPressContent();
             
+            // Load all project summaries
+            Object.keys(projectConfig).forEach(projectId => {
+                loadProjectSummary(projectId);
+            });
+            
             // Start auto-refresh
             startAutoRefresh();
             
@@ -1508,6 +1354,19 @@
         // Export function for manual refresh if needed
         window.refreshBlog = function() {
             fetchWordPressContent();
+        };
+        
+        // Export function to add new projects dynamically
+        window.addNewProject = function(projectId, title, pdfFile, summaryElementId) {
+            // Add to project config
+            projectConfig[projectId] = {
+                title: title,
+                pdf: pdfFile,
+                summaryElement: summaryElementId
+            };
+            
+            // Load the project summary
+            loadProjectSummary(projectId);
         };
     </script>
 </body>
