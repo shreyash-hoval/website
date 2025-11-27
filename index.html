@@ -1,20 +1,620 @@
-<!-- Declares the document type and HTML version -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Sets character encoding to UTF-8 for proper text rendering -->
     <meta charset="UTF-8">
-    <!-- Ensures proper scaling for mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Sets the title of the webpage -->
     <title>Shreyash Hoval | Aerospace & AI Innovator</title>
     
-    <!-- Links external CSS file for styling -->
-    <link rel="stylesheet" href="styles.css">
     <!-- Links FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Links Google Fonts for custom typography -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Define color variables for easy reuse */
+        :root {
+            --primary: #1E1E1E;    /* Dark Charcoal for text on light backgrounds */
+            --secondary: #D4AF37;  /* Gold for accents and highlights */
+            --accent: #8A9A5B;     /* Sage Green for secondary accents */
+            --light: #F5F5F5;      /* Off White for light backgrounds and text */
+            --dark: #121212;       /* Near Black for dark backgrounds */
+        }
+
+        /* Reset default browser styles */
+        * {
+            margin: 0;             /* Remove default margin */
+            padding: 0;            /* Remove default padding */
+            box-sizing: border-box; /* Include padding and border in element's total width/height */
+            font-family: 'Lora', serif; /* Set default font */
+        }
+
+        /* Body styling */
+        body {
+            background: var(--light); /* Light background for the entire page */
+            color: var(--primary);    /* Dark text color for readability */
+            line-height: 1.6;         /* Improve readability with more space between lines */
+        }
+
+        /* Headings styling */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif; /* Use a serif font for headings */
+            color: var(--primary);                  /* Dark text color for headings */
+        }
+
+        /* Navigation bar */
+        .navbar {
+            background: var(--dark); /* Dark background for the navbar */
+            padding: 1rem 5%;        /* Add padding inside the navbar */
+            display: flex;           /* Use flexbox for layout */
+            justify-content: space-between; /* Space out navbar content */
+            align-items: center;     /* Vertically center navbar content */
+            position: fixed;         /* Fix navbar at the top of the page */
+            width: 100%;             /* Full width navbar */
+            z-index: 1000;           /* Ensure navbar stays on top of other elements */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Add a subtle shadow */
+        }
+
+        /* Brand name in navbar */
+        .nav-brand {
+            font-size: 1.5rem;       /* Larger font size for brand name */
+            color: var(--secondary); /* Gold color for brand name */
+            font-weight: 700;        /* Bold font weight */
+        }
+
+        /* Navigation links */
+        .nav-links {
+            list-style: none;        /* Remove bullet points from list */
+            display: flex;           /* Use flexbox for layout */
+            gap: 2rem;               /* Add space between links */
+        }
+
+        /* Individual navigation links */
+        .nav-links a {
+            color: var(--light);     /* Light text color for links */
+            text-decoration: none;   /* Remove underline from links */
+            font-size: 1.1rem;      /* Slightly larger font size */
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+
+        /* Hover effect for navigation links */
+        .nav-links a:hover {
+            color: var(--secondary); /* Change link color to gold on hover */
+        }
+
+        /* Hero section */
+        .hero {
+            height: 100vh;           /* Full viewport height */
+            background: linear-gradient(rgba(18,18,18,0.9), rgba(18,18,18,0.7)),
+                        url('assets/images/hero-bg.png') center/cover; /* Dark overlay with background image */
+            display: flex;           /* Use flexbox for layout */
+            align-items: center;     /* Vertically center content */
+            justify-content: center; /* Horizontally center content */
+            text-align: center;      /* Center-align text */
+            color: var(--light);     /* Light text color */
+            padding: 0 5%;          /* Add padding to sides */
+        }
+
+        /* Hero heading */
+        .hero-content h1 {
+            font-size: 4.5rem;       /* Large font size for main heading */
+            margin-bottom: 1rem;     /* Add space below heading */
+            animation: fadeInUp 1s ease-out; /* Apply fade-in animation */
+            color: var(--secondary); /* Gold color for heading */
+        }
+
+        /* Hero subheading */
+        .hero-content h2 {
+            font-size: 2rem;         /* Medium font size for subheading */
+            margin-bottom: 1.5rem;   /* Add space below subheading */
+            color: var(--light);     /* Light text color */
+            font-weight: 400;        /* Normal font weight */
+        }
+
+        /* Hero tagline */
+        .tagline {
+            font-size: 1.2rem;       /* Small font size for tagline */
+            max-width: 800px;        /* Limit width for better readability */
+            margin: 0 auto 2rem;     /* Center-align and add space below */
+            color: var(--light);     /* Light text color */
+        }
+
+        /* Hero button */
+        .btn-explore {
+            padding: 0.8rem 1.5rem;  /* Add padding to button */
+            background: var(--secondary); /* Gold background */
+            color: var(--dark);      /* Dark text color */
+            text-decoration: none;   /* Remove underline */
+            border-radius: 5px;      /* Rounded corners */
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
+        }
+
+        /* Hover effect for hero button */
+        .btn-explore:hover {
+            background: var(--accent); /* Change background to sage green */
+            transform: translateY(-2px); /* Move button up slightly */
+        }
+
+        /* Projects section */
+        .projects {
+            padding: 5rem 5%;        /* Add padding to section */
+            background: var(--light); /* Light background */
+        }
+
+        /* Section title */
+        .section-title {
+            text-align: center;      /* Center-align title */
+            margin-bottom: 3rem;     /* Add space below title */
+            font-size: 2.5rem;      /* Large font size */
+            color: var(--primary);   /* Dark text color */
+        }
+
+        /* Project grid layout */
+        .project-grid {
+            display: grid;           /* Use CSS Grid for layout */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 2rem;               /* Add space between grid items */
+            max-width: 1200px;       /* Limit maximum width */
+            margin: 0 auto;          /* Center-align grid */
+        }
+
+        /* Individual project card */
+        .project-card {
+            background: white;       /* White background */
+            border-radius: 10px;     /* Rounded corners */
+            overflow: hidden;        /* Hide overflowing content */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Add shadow for depth */
+            transition: transform 0.3s ease; /* Smooth hover effect */
+        }
+
+        /* Hover effect for project card */
+        .project-card:hover {
+            transform: translateY(-10px); /* Move card up slightly */
+        }
+
+        /* Project card image */
+        .project-card img {
+            width: 100%;             /* Full width */
+            height: 200px;           /* Fixed height */
+            object-fit: cover;       /* Ensure image covers the area */
+        }
+
+        /* Project card content */
+        .project-info {
+            padding: 1.5rem;         /* Add padding inside card */
+        }
+
+        /* Project card heading */
+        .project-info h3 {
+            margin-bottom: 1rem;     /* Add space below heading */
+            color: var(--primary);   /* Dark text color */
+        }
+
+        /* Project card description */
+        .project-info p {
+            margin-bottom: 1.5rem;   /* Add space below description */
+            color: var(--dark);      /* Dark text color */
+        }
+
+        /* General button styling */
+        .btn {
+            display: inline-block;   /* Make button inline */
+            padding: 0.8rem 1.5rem;  /* Add padding */
+            background: var(--secondary); /* Gold background */
+            color: var(--dark);      /* Dark text color */
+            text-decoration: none;   /* Remove underline */
+            border-radius: 5px;      /* Rounded corners */
+            transition: all 0.3s ease; /* Smooth hover effect */
+            border: none;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Hover effect for buttons */
+        .btn:hover {
+            background: var(--accent); /* Change background to sage green */
+            transform: translateY(-2px); /* Move button up slightly */
+        }
+
+        /* Publications section */
+        .publications {
+            padding: 5rem 5%;        /* Add padding */
+            background: var(--dark); /* Dark background */
+            color: var(--light);     /* Light text color */
+        }
+
+        /* Publications Section Heading */
+        .publications h2 {
+            font-family: 'Playfair Display', serif; /* Use serif font for elegance */
+            color: var(--light); /* White for contrast on dark background */
+        }
+
+        /* Publication list */
+        .publication-list {
+            max-width: 800px;        /* Limit width */
+            margin: 0 auto;          /* Center-align */
+        }
+
+        /* Individual publication item */
+        .publication-item {
+            background: rgba(255,255,255,0.1); /* Semi-transparent white background */
+            padding: 1.5rem;         /* Add padding */
+            margin-bottom: 1rem;     /* Add space below item */
+            border-radius: 5px;      /* Rounded corners */
+        }
+
+        /* Publication heading */
+        .publication-item h3 {
+            margin-bottom: 0.5rem;   /* Add space below heading */
+            color: var(--secondary); /* Gold text color */
+        }
+
+        /* Publication description */
+        .publication-item p {
+            color: var(--light);     /* Light text color */
+        }
+
+        /* Blogs section */
+        .blogs {
+            padding: 5rem 5%;        /* Add padding */
+            background: var(--light); /* Light background */
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-info {
+            padding: 1.5rem;
+        }
+
+        .blog-info h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .blog-info p {
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .blog-date {
+            font-style: italic;
+        }
+
+        .blog-category {
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+
+        /* Contact section */
+        .contact {
+            padding: 5rem 5%;        /* Add padding */
+            background: var(--dark); /* Dark background */
+            color: var(--light);     /* Light text color */
+            text-align: center;      /* Center-align content */
+        }
+
+        /* Contact Section Heading */
+        .contact h2 {
+            font-family: 'Playfair Display', serif; /* Use serif font for elegance */
+            color: var(--light); /* White for contrast on dark background */
+        }
+
+        /* Contact info */
+        .contact-info {
+            max-width: 600px;        /* Limit width */
+            margin: 0 auto;          /* Center-align */
+        }
+
+        /* Contact text */
+        .contact-info p {
+            margin-bottom: 1.5rem;   /* Add space below text */
+            font-size: 1.1rem;       /* Medium font size */
+        }
+
+        /* Contact links */
+        .contact-info a {
+            color: var(--secondary); /* Gold text color */
+            text-decoration: none;   /* Remove underline */
+            transition: color 0.3s ease; /* Smooth hover effect */
+        }
+
+        /* Hover effect for contact links */
+        .contact-info a:hover {
+            color: var(--accent);    /* Change color to sage green */
+        }
+
+        /* Social media links */
+        .social-links {
+            margin-top: 1.5rem;      /* Add space above links */
+        }
+
+        /* Individual social media link */
+        .social-links a {
+            color: var(--secondary); /* Gold text color */
+            margin: 0 1rem;         /* Add space between links */
+            font-size: 1.5rem;      /* Larger font size */
+            transition: all 0.3s ease; /* Smooth hover effect */
+        }
+
+        /* Hover effect for social media links */
+        .social-links a:hover {
+            color: var(--accent);    /* Change color to sage green */
+            transform: translateY(-2px); /* Move link up slightly */
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark); /* Dark background */
+            color: var(--light);     /* Light text color */
+            text-align: center;      /* Center-align text */
+            padding: 1rem;           /* Add padding */
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animation class for scroll effects */
+        .animate {
+            opacity: 0;              /* Start invisible */
+            transform: translateY(20px); /* Start slightly below */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+        }
+
+        /* Active state for animations */
+        .animate.active {
+            opacity: 1;              /* Make visible */
+            transform: translateY(0); /* Move to original position */
+        }
+
+        /* Modal styles for project details */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 900px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .modal-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .modal-body {
+            line-height: 1.8;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .pdf-placeholder {
+            text-align: center;
+            padding: 3rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+        }
+
+        .pdf-placeholder i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--primary);
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .refresh-info {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--secondary);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .article-content h2, .article-content h3 {
+            margin: 2rem 0 1rem 0;
+            color: var(--primary);
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--secondary);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .article-content th, .article-content td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .article-content th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .project-grid, .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+                margin: 1rem;
+            }
+            
+            .pdf-viewer {
+                height: 400px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -49,7 +649,7 @@
                 <div class="project-info">
                     <h3>Vented Airfoil Design</h3>
                     <p>Developed a passive flow control technique to enhance aerodynamic efficiency.</p>
-                    <a href="#publications" class="btn">View Publication</a>
+                    <button class="btn" data-project="vented-airfoil" data-pdf="HOVAL_paper_publication.pdf">Read Here</button>
                 </div>
             </div>
             <!-- Rhacophorus eVTOL Project -->
@@ -58,7 +658,7 @@
                 <div class="project-info">
                     <h3>Rhacophorus eVTOL</h3>
                     <p>Conceptualized an intercity electric VTOL aircraft for urban air mobility.</p>
-                    <a href="HOVAL_MSc_dissertation.pdf" class="btn">View Report</a>
+                    <button class="btn" data-project="evtol-design" data-pdf="HOVAL_MSc_dissertation.pdf">Read Here</button>
                 </div>
             </div>
             <!-- Anti-Satellite Weapons Project -->
@@ -67,7 +667,7 @@
                 <div class="project-info">
                     <h3>Anti-Satellite Weapons</h3>
                     <p>Analyzed the ethical and environmental impact of space weaponization.</p>
-                    <a href="Team_Antrix_Case_Study.pdf" class="btn">View Case Study</a>
+                    <button class="btn" data-project="anti-satellite" data-pdf="Team_Antrix_Case_Study.pdf">Read Here</button>
                 </div>
             </div>
         </div>
@@ -80,7 +680,7 @@
             <div class="publication-item">
                 <h3>Aerodynamic Design of Vented NACA2412 Airfoil</h3>
                 <p>Published in IJMPERD (SCOPUS Indexed, Jan 2020)</p>
-                <a href="HOVAL_paper_publication.pdf" class="btn">Read Paper</a>
+                <button class="btn" data-project="publication-vented" data-pdf="HOVAL_paper_publication.pdf">Read Here</button>
             </div>
         </div>
     </section>
@@ -88,9 +688,11 @@
     <!-- Blogs Section -->
     <section id="blogs" class="blogs">
         <h2 class="section-title">Insights & Articles</h2>
-        <div class="blog-cta">
-            <p>Diving deep into science and beyond—insights, ideas, and innovation.</p>
-            <a href="https://blog.hoval.space/" class="btn" target="_blank">Visit My Blog</a>
+        <div id="blog-container">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading articles from WordPress...</p>
+            </div>
         </div>
     </section>
 
@@ -113,7 +715,396 @@
         <p>&copy; 2024 Shreyash Kailas Hoval. All rights reserved.</p>
     </footer>
 
-    <!-- Links external JavaScript file for interactivity -->
-    <script src="script.js"></script>
+    <!-- Project Detail Modals -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Your WordPress URL
+        const WORDPRESS_URL = 'https://shreyashhoval3.wordpress.com';
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        });
+
+        // Observe elements for animations
+        document.querySelectorAll('.animate').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Project data
+        const projectData = {
+            'vented-airfoil': {
+                title: 'Vented Airfoil Design',
+                description: 'Developed a passive flow control technique to enhance aerodynamic efficiency.'
+            },
+            'evtol-design': {
+                title: 'Rhacophorus eVTOL',
+                description: 'Conceptualized an intercity electric VTOL aircraft for urban air mobility.'
+            },
+            'anti-satellite': {
+                title: 'Anti-Satellite Weapons',
+                description: 'Analyzed the ethical and environmental impact of space weaponization.'
+            },
+            'publication-vented': {
+                title: 'Aerodynamic Design of Vented NACA2412 Airfoil',
+                description: 'Published in IJMPERD (SCOPUS Indexed, Jan 2020)'
+            }
+        };
+
+        // Project modal functionality
+        const modal = document.getElementById('project-modal');
+        const modalBody = document.getElementById('modal-body');
+        const closeModal = document.querySelector('.close-modal');
+
+        // Open project modal
+        document.querySelectorAll('.btn[data-project]').forEach(button => {
+            button.addEventListener('click', function() {
+                const projectId = this.getAttribute('data-project');
+                const pdfFile = this.getAttribute('data-pdf');
+                
+                if (projectData[projectId]) {
+                    // Create PDF viewer
+                    modalBody.innerHTML = `
+                        <h2 class="modal-title">${projectData[projectId].title}</h2>
+                        <div class="modal-body">
+                            <p><strong>${projectData[projectId].description}</strong></p>
+                            <div class="pdf-viewer-container">
+                                <iframe src="${pdfFile}" class="pdf-viewer" title="${projectData[projectId].title}">
+                                    <div class="pdf-placeholder">
+                                        <i class="fas fa-file-pdf"></i>
+                                        <p>Your browser doesn't support PDF viewing.</p>
+                                        <a href="${pdfFile}" class="btn" target="_blank">Download PDF</a>
+                                    </div>
+                                </iframe>
+                            </div>
+                        </div>
+                    `;
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                }
+            });
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Function to extract all images from content
+        function extractImagesFromContent(content) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(content, 'text/html');
+            const images = doc.querySelectorAll('img');
+            const imageUrls = [];
+            
+            images.forEach(img => {
+                if (img.src) {
+                    imageUrls.push(img.src);
+                }
+            });
+            
+            return imageUrls;
+        }
+
+        // Function to clean and format WordPress content
+        function formatWordPressContent(content) {
+            // Create a temporary div to parse the HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            
+            // Remove unwanted elements
+            const unwantedSelectors = [
+                '.sharedaddy', // Jetpack sharing buttons
+                '.wpcnt', // WordAds container
+                '.wp-block-embed', // Embed blocks that might not work well
+                'iframe[src*="ads"]', // Ad iframes
+                '.adsbygoogle' // Google Ads
+            ];
+            
+            unwantedSelectors.forEach(selector => {
+                const elements = tempDiv.querySelectorAll(selector);
+                elements.forEach(el => el.remove());
+            });
+            
+            // Add styling to elements for better presentation
+            const paragraphs = tempDiv.querySelectorAll('p');
+            paragraphs.forEach(p => {
+                if (!p.classList.length) {
+                    p.style.marginBottom = '1.5rem';
+                    p.style.lineHeight = '1.8';
+                }
+            });
+            
+            const headings = tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            headings.forEach(h => {
+                h.style.margin = '2rem 0 1rem 0';
+                h.style.color = 'var(--primary)';
+                h.style.fontFamily = "'Playfair Display', serif";
+            });
+            
+            const images = tempDiv.querySelectorAll('img');
+            images.forEach(img => {
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                img.style.borderRadius = '8px';
+                img.style.margin = '1.5rem 0';
+                img.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+            });
+            
+            const lists = tempDiv.querySelectorAll('ul, ol');
+            lists.forEach(list => {
+                list.style.marginBottom = '1.5rem';
+                list.style.paddingLeft = '1.5rem';
+            });
+            
+            const listItems = tempDiv.querySelectorAll('li');
+            listItems.forEach(li => {
+                li.style.marginBottom = '0.5rem';
+            });
+            
+            const blockquotes = tempDiv.querySelectorAll('blockquote');
+            blockquotes.forEach(blockquote => {
+                blockquote.style.borderLeft = '4px solid var(--secondary)';
+                blockquote.style.paddingLeft = '1rem';
+                blockquote.style.margin = '1.5rem 0';
+                blockquote.style.fontStyle = 'italic';
+                blockquote.style.color = '#555';
+            });
+            
+            const tables = tempDiv.querySelectorAll('table');
+            tables.forEach(table => {
+                table.style.width = '100%';
+                table.style.borderCollapse = 'collapse';
+                table.style.margin = '1.5rem 0';
+            });
+            
+            const tableCells = tempDiv.querySelectorAll('th, td');
+            tableCells.forEach(cell => {
+                cell.style.border = '1px solid #ddd';
+                cell.style.padding = '0.75rem';
+                cell.style.textAlign = 'left';
+            });
+            
+            const tableHeaders = tempDiv.querySelectorAll('th');
+            tableHeaders.forEach(header => {
+                header.style.backgroundColor = '#f5f5f5';
+                header.style.fontWeight = 'bold';
+            });
+            
+            return tempDiv.innerHTML;
+        }
+
+        // Function to fetch WordPress content
+        async function fetchWordPressContent() {
+            const container = document.getElementById('blog-container');
+            
+            try {
+                // WordPress.com API with full content
+                const apiUrl = `https://public-api.wordpress.com/rest/v1.1/sites/shreyashhoval3.wordpress.com/posts/?number=20&fields=ID,title,excerpt,date,featured_image,URL,content`;
+                
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.posts || data.posts.length === 0) {
+                    container.innerHTML = `
+                        <div class="loading">
+                            <p>No articles found on your WordPress blog.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Display posts with your styling
+                displayWordPressPosts(data.posts, container);
+                
+            } catch (error) {
+                console.error('Error fetching WordPress content:', error);
+                container.innerHTML = `
+                    <div class="error-message">
+                        <h3>Unable to load blog content</h3>
+                        <p>There was an error fetching articles from your WordPress blog.</p>
+                        <p><small>Error: ${error.message}</small></p>
+                        <button onclick="fetchWordPressContent()" class="btn" style="margin-top: 1rem;">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Function to display WordPress posts with your styling
+        function displayWordPressPosts(posts, container) {
+            container.innerHTML = '';
+            
+            // Sort posts by date (newest first)
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            posts.forEach((post, index) => {
+                const blogCard = document.createElement('div');
+                blogCard.className = 'blog-card animate';
+                
+                // Format date
+                const postDate = new Date(post.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Extract clean excerpt (remove HTML tags)
+                const excerpt = post.excerpt 
+                    ? post.excerpt.replace(/<[^>]*>/g, '').substring(0, 150) + '...'
+                    : 'Read the full article for more details.';
+                
+                // Use featured image or extract first image from content
+                let featuredImage = post.featured_image;
+                
+                if (!featuredImage && post.content) {
+                    const contentImages = extractImagesFromContent(post.content);
+                    if (contentImages.length > 0) {
+                        featuredImage = contentImages[0];
+                    }
+                }
+                
+                // Fallback to default image
+                if (!featuredImage) {
+                    featuredImage = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
+                }
+                
+                blogCard.innerHTML = `
+                    <img src="${featuredImage}" alt="${post.title}" 
+                         onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'">
+                    <div class="blog-info">
+                        <div class="blog-meta">
+                            <span class="blog-date">${postDate}</span>
+                            <span class="blog-category">Article</span>
+                        </div>
+                        <h3>${post.title}</h3>
+                        <p>${excerpt}</p>
+                        <button class="btn" onclick="showFullArticle(${index})" style="background: var(--accent);">Read Here</button>
+                    </div>
+                `;
+                
+                container.appendChild(blogCard);
+            });
+
+            // Store posts globally for full article view
+            window.wordpressPosts = posts;
+
+            // Add refresh info
+            const refreshInfo = document.createElement('div');
+            refreshInfo.className = 'refresh-info';
+            refreshInfo.innerHTML = `
+                <p><i class="fas fa-sync-alt"></i> Content automatically updates from WordPress</p>
+                <p><small>Last updated: ${new Date().toLocaleString()}</small></p>
+            `;
+            container.appendChild(refreshInfo);
+
+            // Observe cards for animations
+            setTimeout(() => {
+                document.querySelectorAll('.blog-card.animate').forEach((el) => {
+                    observer.observe(el);
+                });
+            }, 100);
+        }
+
+        // Function to display full article
+        function showFullArticle(postIndex) {
+            const post = window.wordpressPosts[postIndex];
+            const container = document.getElementById('blog-container');
+            
+            // Format the content for better presentation
+            const formattedContent = formatWordPressContent(post.content);
+            
+            container.innerHTML = `
+                <a href="#blogs" class="back-button" onclick="fetchWordPressContent(); return false;">&larr; Back to Articles</a>
+                <div class="article-content animate">
+                    <div class="blog-meta">
+                        <span class="blog-date">${new Date(post.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })}</span>
+                        <span class="blog-category">Article</span>
+                    </div>
+                    <h1>${post.title}</h1>
+                    <div>${formattedContent}</div>
+                    <div style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <a href="${post.URL}" class="btn" target="_blank">Read on WordPress</a>
+                    </div>
+                </div>
+            `;
+
+            // Scroll to article
+            window.scrollTo(0, document.getElementById('blogs').offsetTop - 80);
+
+            // Observe article for animations
+            setTimeout(() => {
+                document.querySelectorAll('.article-content.animate').forEach((el) => {
+                    observer.observe(el);
+                });
+            }, 100);
+        }
+
+        // Auto-refresh content every 30 minutes
+        function startAutoRefresh() {
+            setInterval(() => {
+                console.log('Auto-refreshing WordPress content...');
+                fetchWordPressContent();
+            }, 30 * 60 * 1000); // 30 minutes
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load WordPress content immediately
+            fetchWordPressContent();
+            
+            // Start auto-refresh
+            startAutoRefresh();
+            
+            // Also refresh when page becomes visible again
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    fetchWordPressContent();
+                }
+            });
+        });
+
+        // Export function for manual refresh if needed
+        window.refreshBlog = function() {
+            fetchWordPressContent();
+        };
+    </script>
 </body>
 </html>
