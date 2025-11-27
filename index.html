@@ -372,26 +372,6 @@
             font-size: 0.8rem;
         }
 
-        /* WordPress button in top right corner */
-        .wordpress-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--secondary);
-            color: var(--dark);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-
-        .wordpress-btn:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-        }
-
         /* Contact section */
         .contact {
             padding: 5rem 5%;        /* Add padding */
@@ -647,6 +627,26 @@
             border-radius: 10px;
             padding: 2rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative; /* For positioning the WordPress button */
+        }
+
+        /* WordPress button in top right corner of article */
+        .article-wordpress-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .article-wordpress-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
         }
 
         .article-content img {
@@ -734,7 +734,7 @@
             }
             
             /* Adjust WordPress button for mobile */
-            .wordpress-btn {
+            .article-wordpress-btn {
                 position: relative;
                 top: auto;
                 right: auto;
@@ -1498,7 +1498,6 @@
                     <img src="${featuredImage}" alt="${post.title}" 
                          onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'">
                     <div class="blog-info">
-                        <a href="${post.URL}" class="wordpress-btn" target="_blank">Read on WordPress</a>
                         <div class="blog-meta">
                             <span class="blog-date">${postDate}</span>
                             <span class="blog-category">Article</span>
@@ -1543,6 +1542,7 @@
             container.innerHTML = `
                 <a href="#blogs" class="back-button" onclick="fetchWordPressContent(); return false;">&larr; Back to Articles</a>
                 <div class="article-content animate">
+                    <a href="${post.URL}" class="article-wordpress-btn" target="_blank">Read on WordPress</a>
                     <div class="blog-meta">
                         <span class="blog-date">${new Date(post.date).toLocaleDateString('en-US', {
                             year: 'numeric',
@@ -1553,9 +1553,6 @@
                     </div>
                     <h1>${post.title}</h1>
                     <div>${formattedContent}</div>
-                    <div style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee;">
-                        <a href="${post.URL}" class="btn" target="_blank">Read on WordPress</a>
-                    </div>
                 </div>
             `;
 
