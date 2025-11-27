@@ -630,18 +630,20 @@
             position: relative; /* For positioning the WordPress button */
         }
 
-        /* WordPress button in top right corner of article */
+        /* WordPress button in top right corner of article - SMALLER SIZE */
         .article-wordpress-btn {
             position: absolute;
-            top: 2rem;
-            right: 2rem;
+            top: 1.5rem; /* Moved down slightly from top */
+            right: 1.5rem; /* Moved in slightly from right */
             background: var(--secondary);
             color: var(--dark);
-            padding: 0.8rem 1.5rem;
+            padding: 0.5rem 1rem; /* Smaller padding */
             border-radius: 5px;
             text-decoration: none;
             transition: all 0.3s ease;
             z-index: 10;
+            font-size: 0.85rem; /* Smaller font size */
+            font-weight: 500;
         }
 
         .article-wordpress-btn:hover {
@@ -740,6 +742,8 @@
                 right: auto;
                 display: inline-block;
                 margin-bottom: 1rem;
+                font-size: 0.8rem; /* Even smaller on mobile */
+                padding: 0.4rem 0.8rem;
             }
         }
     </style>
